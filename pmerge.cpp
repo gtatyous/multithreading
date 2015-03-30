@@ -319,7 +319,7 @@ void * mergesort(void *arg)
         
 	//	merge the results from its child threads
         merge(sorterChildStruct.startIndex, halfRecords-1, halfRecords,\
-              sorterParentStruct->endIndex, sorterParentStruct->criteria);
+              sorterParentStruct->endIndex-1, sorterParentStruct->criteria);
     }
     
      	// update the summary
