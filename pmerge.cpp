@@ -40,17 +40,38 @@ int compareRecords( int index1, int index2, vector<int> &v)
     
     for (auto it = v.begin(); it != v.end(); it++)
     {
-        if (*it == 0 and dataSet[index1]->getEid() > dataSet[index2]->getEid())
+        if (*it == 0)
         {
-            return 1;
+            if (dataSet[index1]->getEid() > dataSet[index2]->getEid())
+            {
+                return 1;
+            }
+            else if(dataSet[index1]->getEid() == dataSet[index2]->getEid())
+            {
+                continue;
+            }
+            else
+            {
+                return 0;
+            }
         }
-        else if (dataSet[index1]->getAttributes(*it) > dataSet[index2]->getAttributes(*it))
+        else
         {
-            return 1;
+            if (dataSet[index1]->getAttributes(*it) > dataSet[index2]->getAttributes(*it))
+            {
+                return 1;
+            }
+            else if(dataSet[index1]->getAttributes(*it) == dataSet[index2]->getAttributes(*it))
+            {
+                continue;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
-
-	return 0;
+    return 0;
 }
 
 /*
@@ -165,7 +186,6 @@ int insertion_sort(int startIndex, int endIndex, string keyword, vector<int>& v)
     int i,key;     // i is the index of the last element of the sorted records
                   // Key is the index of item inserted into the sorted records
     
-    
     if (startIndex <= endIndex)
     {
         if (dataSet[startIndex]->getStateName() == keyword){count++;}
@@ -177,7 +197,6 @@ int insertion_sort(int startIndex, int endIndex, string keyword, vector<int>& v)
             
             if (dataSet[j]->getStateName() == keyword){count++;}
             
-            int x = 0;
             while (i>=startIndex && compareRecords(i, key, v))
             {
                 swap(i, i+1);
@@ -185,6 +204,12 @@ int insertion_sort(int startIndex, int endIndex, string keyword, vector<int>& v)
                 i--;
             }
             
+            cout<< "loop#" << j-1<<endl;
+            for (int k =0; k<endIndex; k++)
+            {
+                dataSet[k]->print();
+            }
+            cout << endl;
         }
     }
     return count;
@@ -522,10 +547,10 @@ int main(int argc, char **argv)
     cout << "Writing time used= " << rVal3->timeUsed <<endl;
     cout << "Keyword hits= " << rVal2->frequency << endl;
     
-    cout<<endl;
+    /*cout<<endl;
     for (int i =0; i<rVal1->frequency; i++){
         dataSet[i]->print();
-    }
+    }*/
 
     // add codes to clean the allocated memory
     for (int i =0; i<rVal1->frequency; i++){
