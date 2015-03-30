@@ -472,6 +472,7 @@ int main(int argc, char **argv)
     
 	// add codes to set the attributes and create the main 3 threads - readerThread, sorterThread, writerThread
     
+    //--------------Reading
     argListforRW readerStruct;
     readerStruct.fileName = inputFile;
     rVal1 = new retVal;
@@ -484,11 +485,10 @@ int main(int argc, char **argv)
         cout << "Error - pthread_create()1 return code: "<<ret<<endl;
         exit(EXIT_FAILURE);
     }
-    //busy wait
-    while(shared_status< STATUS_READING_COMPLETED or rVal1->frequency!=dataSet.size());
+    pthread_join( readerThread, NULL);
     numRecords= rVal1->frequency;
     
-    //-----------sorting
+    //--------------Sorting
     argList sorterStruct;
     rVal2 = new retVal;
     
@@ -510,8 +510,9 @@ int main(int argc, char **argv)
         cout << "Error - pthread_create()2 return code: "<<ret<<endl;
         exit(EXIT_FAILURE);
     }
+    pthread_join( sorterThread, NULL);
     
-    //----------writing
+    //--------------Writing
     argListforRW writerStruct;
     writerStruct.fileName = outputFile;
     rVal3 = new retVal;
@@ -523,17 +524,15 @@ int main(int argc, char **argv)
         cout << "Error - pthread_create()3 return code: "<<ret<<endl;
         exit(EXIT_FAILURE);
     }
-    
-    pthread_join( readerThread, NULL);
-    pthread_join( sorterThread, NULL);
     pthread_join( writerThread, NULL);
 
 	
     // add codes to print the results, do not print if there is no record in the database
-    cout << "Reading time used=" << rVal1->timeUsed << endl;
-    cout << "Sorting time used= " << rVal2->timeUsed <<endl;
-    cout << "Writing time used= " << rVal3->timeUsed <<endl;
-    cout << "Keyword hits= " << rVal2->frequency << endl;
+    cout << "Output:" << endl;
+    cout << "   Total CPU time for reading : " << rVal1->timeUsed << endl;
+    cout << "   Total CPU time for sorting : " << rVal2->timeUsed <<endl;
+    cout << "   Total CPU time for writing : " << rVal3->timeUsed <<endl;
+    cout << "   Keyword found: " << rVal2->frequency << " times" << endl;
     
     // add codes to clean the allocated memory
     for (int i =0; i<rVal1->frequency; i++){
