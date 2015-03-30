@@ -203,13 +203,6 @@ int insertion_sort(int startIndex, int endIndex, string keyword, vector<int>& v)
                 key--;
                 i--;
             }
-            
-            cout<< "loop#" << j-1<<endl;
-            for (int k =0; k<endIndex; k++)
-            {
-                dataSet[k]->print();
-            }
-            cout << endl;
         }
     }
     return count;
@@ -226,8 +219,6 @@ output - none
 */ 
 void merge(int i, int mid, int bi, int j, vector <int>& v)
 {
-    cout << "in merge" << endl;
-    
         int ai = i;
     	vector<employeeRecord*> tempList;
 
@@ -285,7 +276,6 @@ void * mergesort(void *arg)
     
     if (numRecords < sorterParentStruct->minSize)
     {
-        cout <<"less than threshold, threadno: "<< sorterParentStruct->threadno << endl;
         rVal1->frequency += insertion_sort(sorterParentStruct->startIndex, sorterParentStruct->endIndex,\
                                            sorterParentStruct->keyword, sorterParentStruct->criteria);
         
@@ -312,7 +302,6 @@ void * mergesort(void *arg)
         sorterChildStruct.minSize = sorterParentStruct->minSize;
         sorterChildStruct.criteria = sorterParentStruct->criteria;
         sorterChildStruct.rVal = rVal2;
-        cout << "creating a child thread number: "<<sorterChildStruct.threadno<<endl;
         
         ret = pthread_create( &sorterChildThread, NULL, mergesort, (void*) &sorterChildStruct);
         if(ret)
@@ -547,11 +536,6 @@ int main(int argc, char **argv)
     cout << "Writing time used= " << rVal3->timeUsed <<endl;
     cout << "Keyword hits= " << rVal2->frequency << endl;
     
-    /*cout<<endl;
-    for (int i =0; i<rVal1->frequency; i++){
-        dataSet[i]->print();
-    }*/
-
     // add codes to clean the allocated memory
     for (int i =0; i<rVal1->frequency; i++){
         delete dataSet[i];
