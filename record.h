@@ -51,6 +51,7 @@ struct employeeRecord{
             case 5: return cityName;
             case 6: return stateName;
             case 7: return ssNumber;
+            default: return "Code will not Run anyway";
         }
     }
     

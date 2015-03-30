@@ -273,7 +273,6 @@ void * mergesort(void *arg)
     struct timeval now, later;
     gettimeofday(&now, NULL);
 	// if the number of records to be sorted is below the threshold, simply call insertion sort
-    
     if (numRecords < sorterParentStruct->minSize)
     {
         rVal1->frequency += insertion_sort(sorterParentStruct->startIndex, sorterParentStruct->endIndex,\
